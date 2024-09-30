@@ -1,0 +1,28 @@
+<div style="text-align: center;">
+    <h2>Journal</h2>
+
+    <!-- Inmatningsfältet -->
+    <textarea [(ngModel)]="journalEntry" rows="6" cols="50" placeholder="Skriv din journal här..."></textarea>
+
+    <!-- Datumfältet -->
+    <div>
+        <label for="journalDate">Välj ett datum:</label>
+        <input type="date" [(ngModel)]="journalDate" id="journalDate">
+    </div>
+
+    <!-- Post-knapp -->
+    <div>
+        <button (click)="postJournal()">Post</button>
+    </div>
+
+    <!-- Visning av alla sparade poster -->
+    <div class="journal-output">
+        <h3>Dina sparade journaler:</h3>
+
+        <!-- Visning av journalerna som en enda sträng -->
+        <p [innerHTML]="formattedJournals"></p>
+
+        <!-- Fallback text om inga journaler finns -->
+        <p>{{ savedJournals.length > 0 ? '' : 'Ingen sparad journal än.' }}</p>
+    </div>
+</div>

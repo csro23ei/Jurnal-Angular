@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {}
+export class HomeComponent {
+  @Output() journalPage = new EventEmitter<void>(); // Utritning av händelse
 
+  navigateToJournal() {
+    this.journalPage.emit(); // Emittera händelse för att navigera
+  }
+}
