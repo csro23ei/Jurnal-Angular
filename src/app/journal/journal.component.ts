@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EmotionComponent } from '../emotion/emotion.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -14,28 +15,66 @@ export class JournalComponent implements OnInit {
   journalDate: string = '';
   savedJournals: { entry: string, date: string, emotion: string }[] = [];
   formattedJournals: string = '';
+  errorMessage: string = '';  
+  successMessage: string = '';  
+  userId: string = '';  
 
   @ViewChild(EmotionComponent) emotionComponent!: EmotionComponent;
 
-  ngOnInit() {
-    const storedJournals = localStorage.getItem('journals');
-    if (storedJournals) {
-      this.savedJournals = JSON.parse(storedJournals);
-      this.updateFormattedJournals();
-    }
-  }
+  constructor(private http: HttpClient) {}
 
+  ngOnInit() {
+    this.userId = localStorage.getItem('userId') || '';
+    console.log("UserId from localStorage:", this.userId); 
+
+    if (this.userId) {
+        this.loadSavedJournals();
+    } else {
+        this.errorMessage = 'Ingen användaridentifierare hittades.'; // No user ID found
+    }
+}
+
+loadSavedJournals() {
+  const url = 'http://localhost:8080/api/journal/entries';
+  const headers = new HttpHeaders().set('userId', this.userId);
+  
+  console.log("Skickar förfrågan med userId:", this.userId); // Sending request with userId
+
+  this.http.get(url, { headers }).subscribe(
+      (data: any) => {
+          this.savedJournals = data;
+          this.updateFormattedJournals();
+      },
+      (error) => {
+          console.error('Error loading journals', error);
+          this.errorMessage = 'Kunde inte ladda journaler.'; // Could not load journals
+      }
+  );
+}
+
+  
   postJournal() {
     const date = this.journalDate ? this.journalDate : new Date().toISOString().split('T')[0];
     const emotion = this.emotionComponent.selectedEmotion;
+    const newJournal = { entry: this.journalEntry, date: date, emotion: emotion };
 
-    if (this.journalEntry.trim()) {
-      this.savedJournals.push({ entry: this.journalEntry, date: date, emotion: emotion });
-      localStorage.setItem('journals', JSON.stringify(this.savedJournals));
-      this.updateFormattedJournals();
-      this.journalEntry = '';
-      this.journalDate = '';
-    }
+    const url = 'http://localhost:8080/api/journal/save';
+    const headers = new HttpHeaders().set('userId', this.userId);
+
+    this.http.post(url, newJournal, { headers }).subscribe(
+      (response: any) => {
+        this.successMessage = 'Journal saved successfully!'; // Journal saved successfully
+        this.errorMessage = '';
+        this.loadSavedJournals();
+        this.journalEntry = '';
+        this.journalDate = '';
+      },
+      (error) => {
+        console.error('Error saving journal', error);
+        this.errorMessage = `Could not save journal. Error: ${error.message}`; // Error saving journal
+        this.successMessage = '';
+      }
+    );
   }
 
   updateFormattedJournals() {

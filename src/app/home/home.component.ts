@@ -7,9 +7,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  @Output() journalPage = new EventEmitter<void>(); // Utritning av händelse
+  @Output() journalPage = new EventEmitter<void>(); // Emit event when navigating
 
   navigateToJournal() {
-    this.journalPage.emit(); // Emittera händelse för att navigera
+    this.journalPage.emit(); // Emit event to navigate to journal
   }
 }

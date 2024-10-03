@@ -1,0 +1,11 @@
+<div style="text-align: center;">
+    <h2>Registrera Ny Användare</h2>
+    <input type="text" [(ngModel)]="username" placeholder="Användarnamn" />
+    <input type="password" [(ngModel)]="password" placeholder="Lösenord" />
+    <button (click)="register()">Registrera</button>
+
+    <!-- Visa felmeddelande om det finns -->
+    <div style="color: red;">{{ errorMessage }}</div>
+    <!-- Visa framgångsmeddelande om det finns -->
+    <div style="color: green;">{{ successMessage }}</div>
+</div>

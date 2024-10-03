@@ -1,6 +1,9 @@
 <div style="text-align: center;">
     <h2>Logga in</h2>
-    <input type="text" #username placeholder="Användarnamn" />
-    <input type="password" #password placeholder="Lösenord" />
-    <button (click)="login(username.value, password.value)">Logga in</button>
+    <input type="text" #usernameInput placeholder="Användarnamn" />
+    <input type="password" #passwordInput placeholder="Lösenord" />
+    <button (click)="login(usernameInput.value, passwordInput.value)">Logga in</button>
+
+    <!-- Visa felmeddelande om det finns -->
+    <div style="color: red;">{{ errorMessage }}</div>
 </div>
