@@ -13,25 +13,28 @@ import { FormsModule } from '@angular/forms';
 export class JournalComponent implements OnInit {
   journalEntry: string = '';
   journalDate: string = '';
-  savedJournals: { entry: string; date: string; emotion: string }[] = [];
+  savedJournals: { entry: string; date: string; emotion: string; _id: string }[] = []; // Lägg till _id för borttagning
+  filteredJournals: { entry: string; date: string; emotion: string; _id: string }[] = []; // Ny variabel för filtrerade journaler
   formattedJournals: string = '';
   errorMessage: string = '';
   successMessage: string = '';
   userId: string = '';
+  startDate: string = ''; // New variable for start date
+  endDate: string = '';  // Ny variabel för att hålla det sökta datumet
 
   @ViewChild(EmotionComponent) emotionComponent!: EmotionComponent;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.userId = localStorage.getItem('userId') || ''; // Kolla för userId
+    this.userId = localStorage.getItem('userId') || '';
 
     console.log('UserId från localStorage:', this.userId);
 
     if (this.userId) {
-      this.loadSavedJournals(); // Ladda sparade journaler om userId finns
+      this.loadSavedJournals();
     } else {
-      this.errorMessage = 'Ingen användaridentifierare hittades.'; // Hantera fall där userId inte hittas
+      this.errorMessage = 'Ingen användaridentifierare hittades.';
     }
   }
 
@@ -44,6 +47,7 @@ export class JournalComponent implements OnInit {
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
         this.savedJournals = data;
+        this.filteredJournals = data; // Initiera filtrerade journaler med alla journaler
         this.updateFormattedJournals();
       },
       (error) => {
@@ -78,9 +82,41 @@ export class JournalComponent implements OnInit {
   }
 
   updateFormattedJournals() {
-    this.formattedJournals = this.savedJournals
-      .map((journal, index) => `<strong>Post ${index + 1} (${journal.date}, Känsla: ${journal.emotion}):</strong> ${journal.entry}`)
+    this.formattedJournals = this.filteredJournals
+      .map((journal, index) => `<strong>Post ${index + 1} (${journal.date}, Känsla: ${journal.emotion}):</strong> ${journal.entry} <button onclick="angularComponent.deleteJournal('${journal._id}')"></button>`)
       .join('<br><br>');
+  }
+
+  deleteJournal(journalId: string) {
+    const url = `http://localhost:8080/api/journal/delete/${journalId}`;
+    const headers = new HttpHeaders().set('userId', this.userId);
+  
+    this.http.delete(url, { headers }).subscribe(
+      (response) => {
+        this.successMessage = 'Journalen togs bort framgångsrikt!';
+        this.errorMessage = '';
+        this.loadSavedJournals(); 
+      },
+      (error) => {
+        console.error('Fel vid borttagning av journal', error);
+        this.errorMessage = `Kunde inte ta bort journal. Fel: ${error.message}`;
+        this.successMessage = '';
+      }
+    );
+  }
+
+  searchByDateRange() {
+    if (this.startDate && this.endDate) {
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+      this.filteredJournals = this.savedJournals.filter(journal => {
+        const journalDate = new Date(journal.date);
+        return journalDate >= start && journalDate <= end; // Check if the journal date is within the range
+      });
+    } else {
+      this.filteredJournals = this.savedJournals; // If no dates provided, show all journals
+    }
+    this.updateFormattedJournals(); // Update the formatted journals
   }
 }
 

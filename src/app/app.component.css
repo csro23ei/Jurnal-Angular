@@ -1,3 +1,56 @@
 [hidden] {
     display: none;
 }
+
+.journal-output {
+    margin-top: 20px;
+    /* Adds space above the journal output */
+}
+
+.journal-box {
+    background-color: #f9f9f9;
+    /* Light background for the journal boxes */
+    border: 1px solid #ddd;
+    /* Light border around each journal box */
+    border-radius: 5px;
+    /* Rounded corners */
+    padding: 10px;
+    /* Padding inside the boxes */
+    margin: 10px;
+    /* Margin between boxes */
+    flex: 1 1 15%;
+    /* Flex-grow, flex-shrink, flex-basis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Slight shadow for depth */
+}
+
+.journal-container {
+    display: flex;
+    /* Enables flexbox */
+    flex-wrap: wrap;
+    /* Allows wrapping of items to the next line */
+    justify-content: space-between;
+    /* Space between boxes */
+}
+
+h3 {
+    text-align: center;
+    /* Center aligns the header */
+}
+
+
+/* Responsive design for smaller screens */
+
+@media (max-width: 800px) {
+    .journal-box {
+        flex: 1 1 30%;
+        /* 3 in a row on smaller screens */
+    }
+}
+
+@media (max-width: 500px) {
+    .journal-box {
+        flex: 1 1 100%;
+        /* 1 in a row on very small screens */
+    }
+}

@@ -9,9 +9,19 @@
     <div>
         <button (click)="postJournal()">Post</button>
     </div>
+
+    <!-- New section for searching between two dates -->
+    <div>
+        <label for="startDate">Startdatum:</label>
+        <input type="date" [(ngModel)]="startDate" id="startDate">
+        <label for="endDate">Slutdatum:</label>
+        <input type="date" [(ngModel)]="endDate" id="endDate">
+        <button (click)="searchByDateRange()">Sök</button>
+    </div>
+
     <div class="journal-output">
         <h3>Dina sparade journaler:</h3>
         <p [innerHTML]="formattedJournals"></p>
-        <p>{{ savedJournals.length > 0 ? '' : 'Ingen sparad journal än.' }}</p>
+        <p>{{ filteredJournals.length > 0 ? '' : 'Ingen sparad journal än.' }}</p>
     </div>
 </div>

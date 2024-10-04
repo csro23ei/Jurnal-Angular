@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+
 import { JournalComponent } from './journal/journal.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -14,13 +14,10 @@ import { RegisterComponent } from './register/register.component';
     </div>
     <app-login [hidden]="!isLoginVisible" (loginSuccess)="onLoginSuccess($event)"></app-login>
     <app-register [hidden]="!isRegisterVisible" (registrationSuccess)="onRegistrationSuccess()"></app-register>
-    <app-home 
-      [hidden]="!isLoggedIn || isLoginVisible || isRegisterVisible" 
-      (journalPage)="onJournalPage()">
-    </app-home>
+   
     <app-journal [hidden]="!showJournal"></app-journal>
   `,
-  imports: [LoginComponent, HomeComponent, JournalComponent, RegisterComponent],
+  imports: [LoginComponent,  JournalComponent, RegisterComponent],
 })
 export class AppComponent {
   isLoggedIn = false;
@@ -44,6 +41,7 @@ export class AppComponent {
     this.isLoggedIn = true;
     this.isLoginVisible = false;
     this.isRegisterVisible = false;
+    this.showJournal = true; // Redirect to Journal immediately after login
   }
 
   onRegistrationSuccess() {
@@ -51,6 +49,7 @@ export class AppComponent {
     this.isLoggedIn = true;
     this.isLoginVisible = false;
     this.isRegisterVisible = false;
+    this.showJournal = true; // You might also want to show the journal after registration
   }
 
   onJournalPage() {
