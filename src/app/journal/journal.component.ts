@@ -2,25 +2,37 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EmotionComponent } from '../emotion/emotion.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'app-journal',
   templateUrl: './journal.component.html',
   styleUrls: ['./journal.component.css'],
-  imports: [FormsModule, EmotionComponent],
+  imports: [FormsModule, EmotionComponent, CommonModule],
 })
 export class JournalComponent implements OnInit {
   journalEntry: string = '';
   journalDate: string = '';
-  savedJournals: { entry: string; date: string; emotion: string; _id: string }[] = []; // Lägg till _id för borttagning
-  filteredJournals: { entry: string; date: string; emotion: string; _id: string }[] = []; // Ny variabel för filtrerade journaler
+  savedJournals: { entry: string; date: string; emotion: string; _id: string }[] = [];
+  filteredJournals: { entry: string; date: string; emotion: string; _id: string }[] = [];
   formattedJournals: string = '';
   errorMessage: string = '';
   successMessage: string = '';
   userId: string = '';
-  startDate: string = ''; // New variable for start date
-  endDate: string = '';  // Ny variabel för att hålla det sökta datumet
+  startDate: string = '';
+  endDate: string = '';
+  
+  // Uppdaterad emotionStats med alla sex känslor
+  emotionStats: { [emotion: string]: number } = { 
+    "Väldigt bra": 0, 
+    "Bra": 0, 
+    "Neutral": 0, 
+    "Lite stressad": 0, 
+    "Stressad": 0, 
+    "Väldigt dåligt": 0 
+  };
+  totalEntries: number = 0;
 
   @ViewChild(EmotionComponent) emotionComponent!: EmotionComponent;
 
@@ -28,7 +40,6 @@ export class JournalComponent implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('userId') || '';
-
     console.log('UserId från localStorage:', this.userId);
 
     if (this.userId) {
@@ -41,14 +52,14 @@ export class JournalComponent implements OnInit {
   loadSavedJournals() {
     const url = 'http://localhost:8080/api/journal/entries';
     const headers = new HttpHeaders().set('userId', this.userId);
-
     console.log('Skickar förfrågan med userId:', this.userId);
 
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
         this.savedJournals = data;
-        this.filteredJournals = data; // Initiera filtrerade journaler med alla journaler
+        this.filteredJournals = data; 
         this.updateFormattedJournals();
+        this.calculateEmotionStats(); // Beräkna statistik när journaler laddas
       },
       (error) => {
         console.error('Fel vid inläsning av journaler', error);
@@ -90,7 +101,7 @@ export class JournalComponent implements OnInit {
   deleteJournal(journalId: string) {
     const url = `http://localhost:8080/api/journal/delete/${journalId}`;
     const headers = new HttpHeaders().set('userId', this.userId);
-  
+
     this.http.delete(url, { headers }).subscribe(
       (response) => {
         this.successMessage = 'Journalen togs bort framgångsrikt!';
@@ -111,12 +122,35 @@ export class JournalComponent implements OnInit {
       const end = new Date(this.endDate);
       this.filteredJournals = this.savedJournals.filter(journal => {
         const journalDate = new Date(journal.date);
-        return journalDate >= start && journalDate <= end; // Check if the journal date is within the range
+        return journalDate >= start && journalDate <= end;
       });
     } else {
-      this.filteredJournals = this.savedJournals; // If no dates provided, show all journals
+      this.filteredJournals = this.savedJournals;
     }
-    this.updateFormattedJournals(); // Update the formatted journals
+    this.calculateEmotionStats(); // Beräkna statistik efter filtrering
+    this.updateFormattedJournals();
+  }
+
+  calculateEmotionStats() {
+    this.totalEntries = this.filteredJournals.length;
+
+    // Återställ statistik
+    this.emotionStats = { 
+      "Väldigt bra": 0, 
+      "Bra": 0, 
+      "Neutral": 0, 
+      "Lite stressad": 0, 
+      "Stressad": 0, 
+      "Väldigt dåligt": 0 
+    };
+
+    // Räkna poster för varje känsla
+    this.filteredJournals.forEach(journal => {
+      if (this.emotionStats[journal.emotion] !== undefined) {
+        this.emotionStats[journal.emotion]++;
+      }
+
+      
+    });
   }
 }
-

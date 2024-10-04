@@ -1,27 +1,82 @@
-<div style="text-align: center;">
-    <h2>Journal</h2>
-    <textarea [(ngModel)]="journalEntry" rows="6" cols="50" placeholder="Skriv din journal här..."></textarea>
-    <div>
-        <label for="journalDate">Välj ett datum:</label>
-        <input type="date" [(ngModel)]="journalDate" id="journalDate">
-    </div>
-    <app-emotion></app-emotion>
-    <div>
-        <button (click)="postJournal()">Post</button>
-    </div>
+<div style="display: flex; justify-content: center; align-items: flex-start;">
 
-    <!-- New section for searching between two dates -->
-    <div>
-        <label for="startDate">Startdatum:</label>
-        <input type="date" [(ngModel)]="startDate" id="startDate">
-        <label for="endDate">Slutdatum:</label>
-        <input type="date" [(ngModel)]="endDate" id="endDate">
-        <button (click)="searchByDateRange()">Sök</button>
-    </div>
-
-    <div class="journal-output">
+    <!-- Left side for Journal Entries -->
+    <div style="flex: 1; text-align: left; padding: 20px;">
         <h3>Dina sparade journaler:</h3>
-        <p [innerHTML]="formattedJournals"></p>
-        <p>{{ filteredJournals.length > 0 ? '' : 'Ingen sparad journal än.' }}</p>
+
+        <!-- Journaler visas här -->
+        <div *ngFor="let journal of filteredJournals">
+            <p>
+                <strong>Post ({{ journal.date }}, Känsla: {{ journal.emotion }}):</strong> {{ journal.entry }}
+                <button style="font-size: 16px; padding: 10px 20px; background-color: #AEEEEE; border: none; border-radius: 5px; cursor: pointer;" (click)="deleteJournal(journal._id)">Ta bort</button>
+            </p>
+        </div>
+
+        <!-- New section for searching between two dates -->
+        <div>
+            <label for="startDate">Startdatum:</label>
+            <input type="date" [(ngModel)]="startDate" id="startDate" style="font-size: 16px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; max-width: 300px; box-sizing: border-box;">
+            <label for="endDate">Slutdatum:</label>
+            <input type="date" [(ngModel)]="endDate" id="endDate" style="font-size: 16px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; max-width: 300px; box-sizing: border-box;">
+            <button style="font-size: 16px; padding: 10px 20px; background-color: #AEEEEE; border: none; border-radius: 5px; cursor: pointer;" (click)="searchByDateRange()">Sök</button>
+        </div>
     </div>
+
+    <!-- Center section for Journal Entry -->
+    <div style="flex: 1; text-align: center; padding: 20px; border: 2px solid #AEEEEE; border-radius: 10px; background-color: #f7f9fc;">
+        <h2>Journal</h2>
+        <textarea [(ngModel)]="journalEntry" rows="6" cols="50" placeholder="Skriv din journal här..." style="width: 100%; max-width: 500px; border: 4px solid #AEEEEE; border-radius: 5px; padding: 10px; box-sizing: border-box;"></textarea>
+
+        <div>
+            <label for="journalDate">Välj ett datum:</label>
+            <input type="date" [(ngModel)]="journalDate" id="journalDate" style="font-size: 16px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; max-width: 300px; box-sizing: border-box;">
+        </div>
+        <app-emotion></app-emotion>
+        <div>
+            <button style="font-size: 16px; padding: 10px 20px; background-color: #AEEEEE; border: none; border-radius: 5px; cursor: pointer;" (click)="postJournal()">Post</button>
+        </div>
+    </div>
+
+
+    <!-- Right side for Emotion Statistics -->
+    <div style="flex: 1; text-align: left; padding: 20px; font-size: 18px;">
+        <h3 style="font-size: 24px;">Emotion Statistik:</h3>
+        <p>
+            😃 Väldigt bra:
+            <span style="font-size: 24px; font-weight: bold;">
+                {{ (emotionStats['Väldigt bra'] / totalEntries * 100) | number: '1.0-0' }}%
+            </span>
+        </p>
+        <p>
+            😊 Bra:
+            <span style="font-size: 24px; font-weight: bold;">
+                {{ (emotionStats['Bra'] / totalEntries * 100) | number: '1.0-0' }}%
+            </span>
+        </p>
+        <p>
+            😐 Neutral:
+            <span style="font-size: 24px; font-weight: bold;">
+                {{ (emotionStats['Neutral'] / totalEntries * 100) | number: '1.0-0' }}%
+            </span>
+        </p>
+        <p>
+            😓 Lite stressad:
+            <span style="font-size: 24px; font-weight: bold;">
+                {{ (emotionStats['Lite stressad'] / totalEntries * 100) | number: '1.0-0' }}%
+            </span>
+        </p>
+        <p>
+            😰 Stressad:
+            <span style="font-size: 24px; font-weight: bold;">
+                {{ (emotionStats['Stressad'] / totalEntries * 100) | number: '1.0-0' }}%
+            </span>
+        </p>
+        <p>
+            😞 Väldigt dåligt:
+            <span style="font-size: 24px; font-weight: bold;">
+                {{ (emotionStats['Väldigt dåligt'] / totalEntries * 100) | number: '1.0-0' }}%
+            </span>
+        </p>
+    </div>
+
 </div>
