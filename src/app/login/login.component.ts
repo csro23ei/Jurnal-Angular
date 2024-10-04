@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,24 +18,28 @@ export class LoginComponent {
 
   login(username: string, password: string) {
     if (username && password) {
-      const url = 'http://localhost:8080/user/login'; // URL till din backend
-      const userData = { username: username, password: password };
+        const url = 'http://localhost:8080/user/login'; // URL till din backend
+        const userData = { username: username, password: password };
 
-      this.http.post(url, userData).subscribe(
-        (response: any) => {
-          // Om inloggningen lyckas
-          this.loginSuccess.emit(username);
-          this.errorMessage = '';
-        },
-        (error) => {
-          // Om inloggningen misslyckas
-          this.errorMessage = 'Felaktigt användarnamn eller lösenord.';
-          console.error('Login error:', error);
-        }
-      );
+        this.http.post(url, userData).subscribe(
+            (response: any) => {
+                if (response) {
+                    localStorage.setItem('userId', response.id); // Spara userId
+                    this.loginSuccess.emit(username);
+                    this.errorMessage = '';
+                } else {
+                    this.errorMessage = 'Felaktigt användarnamn eller lösenord.';
+                    console.error('Inloggningsfel:', Error);
+                }
+            },
+            (error) => {
+                this.errorMessage = 'Felaktigt användarnamn eller lösenord.';
+                console.error('Inloggningsfel:', error);
+            }
+        );
     } else {
-      this.errorMessage = 'Vänligen fyll i både användarnamn och lösenord.';
+        this.errorMessage = 'Vänligen fyll i både användarnamn och lösenord.';
     }
-  }
 }
 
+}

@@ -8,70 +8,70 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-journal',
   templateUrl: './journal.component.html',
   styleUrls: ['./journal.component.css'],
-  imports: [FormsModule, EmotionComponent]
+  imports: [FormsModule, EmotionComponent],
 })
 export class JournalComponent implements OnInit {
   journalEntry: string = '';
   journalDate: string = '';
-  savedJournals: { entry: string, date: string, emotion: string }[] = [];
+  savedJournals: { entry: string; date: string; emotion: string }[] = [];
   formattedJournals: string = '';
-  errorMessage: string = '';  
-  successMessage: string = '';  
-  userId: string = '';  
+  errorMessage: string = '';
+  successMessage: string = '';
+  userId: string = '';
 
   @ViewChild(EmotionComponent) emotionComponent!: EmotionComponent;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.userId = localStorage.getItem('userId') || '';
-    console.log("UserId from localStorage:", this.userId); 
+    this.userId = localStorage.getItem('userId') || ''; // Kolla för userId
+
+    console.log('UserId från localStorage:', this.userId);
 
     if (this.userId) {
-        this.loadSavedJournals();
+      this.loadSavedJournals(); // Ladda sparade journaler om userId finns
     } else {
-        this.errorMessage = 'Ingen användaridentifierare hittades.'; // No user ID found
+      this.errorMessage = 'Ingen användaridentifierare hittades.'; // Hantera fall där userId inte hittas
     }
-}
+  }
 
-loadSavedJournals() {
-  const url = 'http://localhost:8080/api/journal/entries';
-  const headers = new HttpHeaders().set('userId', this.userId);
-  
-  console.log("Skickar förfrågan med userId:", this.userId); // Sending request with userId
+  loadSavedJournals() {
+    const url = 'http://localhost:8080/api/journal/entries';
+    const headers = new HttpHeaders().set('userId', this.userId);
 
-  this.http.get(url, { headers }).subscribe(
+    console.log('Skickar förfrågan med userId:', this.userId);
+
+    this.http.get(url, { headers }).subscribe(
       (data: any) => {
-          this.savedJournals = data;
-          this.updateFormattedJournals();
+        this.savedJournals = data;
+        this.updateFormattedJournals();
       },
       (error) => {
-          console.error('Error loading journals', error);
-          this.errorMessage = 'Kunde inte ladda journaler.'; // Could not load journals
+        console.error('Fel vid inläsning av journaler', error);
+        this.errorMessage = 'Kunde inte ladda journaler.';
       }
-  );
-}
+    );
+  }
 
-  
   postJournal() {
     const date = this.journalDate ? this.journalDate : new Date().toISOString().split('T')[0];
     const emotion = this.emotionComponent.selectedEmotion;
-    const newJournal = { entry: this.journalEntry, date: date, emotion: emotion };
+    const newJournal = { entry: this.journalEntry, date: date, emotion: emotion, userId: this.userId };
 
     const url = 'http://localhost:8080/api/journal/save';
     const headers = new HttpHeaders().set('userId', this.userId);
 
     this.http.post(url, newJournal, { headers }).subscribe(
       (response: any) => {
-        this.successMessage = 'Journal saved successfully!'; // Journal saved successfully
+        this.successMessage = 'Journalen sparades framgångsrikt!';
         this.errorMessage = '';
         this.loadSavedJournals();
         this.journalEntry = '';
         this.journalDate = '';
       },
       (error) => {
-        console.error('Error saving journal', error);
-        this.errorMessage = `Could not save journal. Error: ${error.message}`; // Error saving journal
+        console.error('Fel vid sparande av journal', error);
+        this.errorMessage = `Kunde inte spara journal. Fel: ${error.message}`;
         this.successMessage = '';
       }
     );
@@ -83,3 +83,4 @@ loadSavedJournals() {
       .join('<br><br>');
   }
 }
+

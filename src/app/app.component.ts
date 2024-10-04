@@ -54,6 +54,6 @@ export class AppComponent {
   }
 
   onJournalPage() {
-    this.showJournal = true; // Visa journal-komponenten
+    this.showJournal = true; // Show journal component
   }
 }
