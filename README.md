@@ -1,5 +1,16 @@
 # Journal
 
+⚠️Viktig meddelande till läraren:⚠️
+⚠️Remove-funktionen fungerar inte och den räknar ut statistiken genom datum-sökningen. Det verkade som en bra idé i början.⚠️
+
+Bakenden: https://github.com/csro23ei/Angular-bakend
+Reflektion: https://docs.google.com/document/d/1e7-QTC-PpqhMFBgdq5bM3MBa7y0_qWTDBLn3lcC3iaY/edit?usp=sharing
+
+
+
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.5.
 
 ## Development server
@@ -25,3 +36,5 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
