@@ -18,13 +18,13 @@ export class LoginComponent {
 
   login(username: string, password: string) {
     if (username && password) {
-        const url = 'http://localhost:8080/user/login'; // URL till din backend
+        const url = 'http://localhost:8080/user/login'; 
         const userData = { username: username, password: password };
 
         this.http.post(url, userData).subscribe(
             (response: any) => {
                 if (response) {
-                    localStorage.setItem('userId', response.id); // Spara userId
+                    localStorage.setItem('userId', response.id); 
                     this.loginSuccess.emit(username);
                     this.errorMessage = '';
                 } else {

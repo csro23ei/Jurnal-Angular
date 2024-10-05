@@ -1,10 +1,10 @@
 <div style="display: flex; justify-content: center; align-items: flex-start;">
 
-    <!-- Left side for Journal Entries -->
+    <!-- Journaler visas här -->
     <div style="flex: 1; text-align: left; padding: 20px;">
         <h3>Dina sparade journaler:</h3>
 
-        <!-- Journaler visas här -->
+
         <div *ngFor="let journal of filteredJournals">
             <p>
                 <strong>Post ({{ journal.date }}, Känsla: {{ journal.emotion }}):</strong> {{ journal.entry }}
@@ -12,7 +12,7 @@
             </p>
         </div>
 
-        <!-- New section for searching between two dates -->
+        <!-- Datum sökning -->
         <div>
             <label for="startDate">Startdatum:</label>
             <input type="date" [(ngModel)]="startDate" id="startDate" style="font-size: 16px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 100%; max-width: 300px; box-sizing: border-box;">
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <!-- Center section for Journal Entry -->
+    <!-- Journal Entry -->
     <div style="flex: 1; text-align: center; padding: 20px; border: 2px solid #AEEEEE; border-radius: 10px; background-color: #f7f9fc;">
         <h2>Journal</h2>
         <textarea [(ngModel)]="journalEntry" rows="6" cols="50" placeholder="Skriv din journal här..." style="width: 100%; max-width: 500px; border: 4px solid #AEEEEE; border-radius: 5px; padding: 10px; box-sizing: border-box;"></textarea>
@@ -38,7 +38,7 @@
     </div>
 
 
-    <!-- Right side for Emotion Statistics -->
+    <!-- Emotion Statistics  -->
     <div style="flex: 1; text-align: left; padding: 20px; font-size: 18px;">
         <h3 style="font-size: 24px;">Emotion Statistik:</h3>
         <p>

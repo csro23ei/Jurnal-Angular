@@ -41,7 +41,7 @@ export class AppComponent {
     this.isLoggedIn = true;
     this.isLoginVisible = false;
     this.isRegisterVisible = false;
-    this.showJournal = true; // Redirect to Journal immediately after login
+    this.showJournal = true; 
   }
 
   onRegistrationSuccess() {
@@ -49,10 +49,10 @@ export class AppComponent {
     this.isLoggedIn = true;
     this.isLoginVisible = false;
     this.isRegisterVisible = false;
-    this.showJournal = true; // You might also want to show the journal after registration
+    this.showJournal = true; 
   }
 
   onJournalPage() {
-    this.showJournal = true; // Show journal component
+    this.showJournal = true; 
   }
 }

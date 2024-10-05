@@ -20,22 +20,22 @@ export class RegisterComponent {
 
   constructor(private http: HttpClient) {}
 
-  // Method to handle registration
+ 
   register() {
-    const url = 'http://localhost:8080/user/register'; // Ensure this matches your backend
+    const url = 'http://localhost:8080/user/register'; 
     const userData = { username: this.username, password: this.password };
 
     this.http.post(url, userData).subscribe(
       (response: any) => {
-        // Always show success message
+        
         this.successMessage = 'Registrering lyckades! Du kan logga in nu.';
-        this.errorMessage = ''; // Clear any previous error messages
-        this.registrationSuccess.emit(); // Emit success event
+        this.errorMessage = ''; 
+        this.registrationSuccess.emit(); 
       },
       (error: any) => {
         console.error('Registreringsfel', error);
-        this.errorMessage = 'Ett fel inträffade vid registreringen. Försök igen.'; // Keep general error message
-        this.successMessage = ''; // Clear any previous success messages
+        this.errorMessage = 'Ett fel inträffade vid registreringen. Försök igen.'; 
+        this.successMessage = ''; 
       }
     );
   }

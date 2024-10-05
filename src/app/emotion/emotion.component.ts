@@ -9,9 +9,9 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule]
 })
 export class EmotionComponent {
-  selectedEmotion: string = 'Neutral'; // Standard känsla
+  selectedEmotion: string = 'Neutral'; 
 
   selectEmotion(emotion: string) {
-    this.selectedEmotion = emotion; // Uppdatera känslan när en emoji klickas
+    this.selectedEmotion = emotion; 
   }
 }

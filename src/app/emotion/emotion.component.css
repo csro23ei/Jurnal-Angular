@@ -13,12 +13,10 @@
 
 .emoji:hover {
     transform: scale(1.3);
-    /* Zooma in på emojin vid hover */
 }
 
 .selected {
     border: 2px solid #000;
-    /* Omringad med svart kant när vald */
     border-radius: 50%;
     padding: 5px;
 }

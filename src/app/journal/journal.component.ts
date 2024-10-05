@@ -23,7 +23,7 @@ export class JournalComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
   
-  // Uppdaterad emotionStats med alla sex känslor
+ 
   emotionStats: { [emotion: string]: number } = { 
     "Väldigt bra": 0, 
     "Bra": 0, 
@@ -59,7 +59,7 @@ export class JournalComponent implements OnInit {
         this.savedJournals = data;
         this.filteredJournals = data; 
         this.updateFormattedJournals();
-        this.calculateEmotionStats(); // Beräkna statistik när journaler laddas
+        this.calculateEmotionStats(); 
       },
       (error) => {
         console.error('Fel vid inläsning av journaler', error);
@@ -118,39 +118,38 @@ export class JournalComponent implements OnInit {
 
   searchByDateRange() {
     if (this.startDate && this.endDate) {
-      const start = new Date(this.startDate);
-      const end = new Date(this.endDate);
-      this.filteredJournals = this.savedJournals.filter(journal => {
-        const journalDate = new Date(journal.date);
-        return journalDate >= start && journalDate <= end;
-      });
+        const start = new Date(this.startDate);
+        const end = new Date(this.endDate);
+        this.filteredJournals = this.savedJournals.filter(journal => {
+            const journalDate = new Date(journal.date);
+            return journalDate >= start && journalDate <= end;
+        });
     } else {
-      this.filteredJournals = this.savedJournals;
+        this.filteredJournals = this.savedJournals; 
     }
-    this.calculateEmotionStats(); // Beräkna statistik efter filtrering
+    this.calculateEmotionStats(); 
     this.updateFormattedJournals();
-  }
+}
 
-  calculateEmotionStats() {
+calculateEmotionStats() {
     this.totalEntries = this.filteredJournals.length;
 
-    // Återställ statistik
+  
     this.emotionStats = { 
-      "Väldigt bra": 0, 
-      "Bra": 0, 
-      "Neutral": 0, 
-      "Lite stressad": 0, 
-      "Stressad": 0, 
-      "Väldigt dåligt": 0 
+        "Väldigt bra": 0, 
+        "Bra": 0, 
+        "Neutral": 0, 
+        "Lite stressad": 0, 
+        "Stressad": 0, 
+        "Väldigt dåligt": 0 
     };
 
-    // Räkna poster för varje känsla
+   
     this.filteredJournals.forEach(journal => {
-      if (this.emotionStats[journal.emotion] !== undefined) {
-        this.emotionStats[journal.emotion]++;
-      }
-
-      
+        if (this.emotionStats[journal.emotion] !== undefined) {
+            this.emotionStats[journal.emotion]++;
+        }
     });
-  }
+}
+
 }
