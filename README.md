@@ -2,6 +2,8 @@
 
 ⚠️Viktig meddelande till läraren:⚠️
 ⚠️Remove-funktionen fungerar inte och den räknar ut statistiken genom datum-sökningen. Det verkade som en bra idé i början.⚠️
+⚠️ Jag lade även märke till att den beter sig konstigt om jag använder Explorer-webbläsaren.Den är långsam och skikar inte altid med user id med inlägget Jag vet att du har iMac, men jag har för tillfället ingen möjlighet att testa på Safari. ⚠️
+
 
 Bakenden: https://github.com/csro23ei/Angular-bakend
 Reflektion: https://docs.google.com/document/d/1e7-QTC-PpqhMFBgdq5bM3MBa7y0_qWTDBLn3lcC3iaY/edit?usp=sharing
