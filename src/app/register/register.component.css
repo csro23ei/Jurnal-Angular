@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.register-container {
+    background-color: white;
+    border: 2px solid #add8e6;
+    border-radius: 10px;
+    padding: 40px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.register-container input[type="text"],
+.register-container input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #add8e6;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.register-container button {
+    width: 100%;
+    padding: 15px;
+    background-color: #add8e6;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.register-container button:hover {
+    background-color: #87ceeb;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: green;
+    margin-top: 10px;
+}

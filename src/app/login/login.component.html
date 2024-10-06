@@ -1,9 +1,76 @@
-<div style="text-align: center;">
-    <h2>Logga in</h2>
-    <input type="text" #usernameInput placeholder="Användarnamn" />
-    <input type="password" #passwordInput placeholder="Lösenord" />
-    <button (click)="login(usernameInput.value, passwordInput.value)">Logga in</button>
+<!DOCTYPE html>
+<html lang="sv">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logga in</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .login-container {
+            background-color: white;
+            border: 2px solid #add8e6;
+            border-radius: 10px;
+            padding: 40px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #add8e6;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        
+        .login-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #add8e6;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .login-container button:hover {
+            background-color: #87ceeb;
+        }
+        
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
 
-    <div style="color: red;">{{ errorMessage }}</div>
-</div>
+<body>
+    <div class="login-container">
+        <h2>Logga in</h2>
+        <input type="text" #usernameInput placeholder="Användarnamn" />
+        <input type="password" #passwordInput placeholder="Lösenord" />
+        <button (click)="login(usernameInput.value, passwordInput.value)">Logga in</button>
+        <div class="error-message">{{ errorMessage }}</div>
+    </div>
+</body>
+
+</html>
