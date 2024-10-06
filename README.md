@@ -3,6 +3,7 @@
 ⚠️Viktig meddelande till läraren:⚠️
 ⚠️Remove-funktionen fungerar inte och den räknar ut statistiken genom datum-sökningen. Det verkade som en bra idé i början.⚠️
 ⚠️ Jag lade även märke till att den beter sig konstigt om jag använder Explorer-webbläsaren. Den är långsam och skickar inte alltid med user ID med inlägget. Jag vet att du har iMac, men jag har för tillfället ingen möjlighet att testa på Safari. ⚠️
+Och ibland inte altid när man byter konto i Explorer så updateras inte inläggen till profilen men om man updaterar sidan igen och loggar in igen så funkar det vet inte varför har aldrig sett liknande.
 
 
 Bakenden: https://github.com/csro23ei/Angular-bakend
